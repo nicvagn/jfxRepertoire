@@ -192,6 +192,14 @@ public class App extends Application implements StateChangeListener {
         btnNew.setGraphic(new ImageView( new Image("icons/document-new.png")));
         btnNew.setContentDisplay(ContentDisplay.TOP);
 
+        Button btnMakeRep = new Button("New Repertoire");
+        btnMakeRep.setGraphic(new ImageView( new Image("icons/database.png")));
+        btnMakeRep.setContentDisplay(ContentDisplay.TOP);
+
+        Button btnOpenRep = new Button("Open Repertoire");
+        btnOpenRep.setGraphic(new ImageView( new Image("icons/database.png")));
+        btnOpenRep.setContentDisplay(ContentDisplay.TOP);
+
         Button btnOpen = new Button("Open File");
         btnOpen.setGraphic(new ImageView( new Image("icons/document-open.png")));
         btnOpen.setContentDisplay(ContentDisplay.TOP);
@@ -244,7 +252,7 @@ public class App extends Application implements StateChangeListener {
         btnAbout.setGraphic(new ImageView( new Image("icons/help-browser.png")));
         btnAbout.setContentDisplay(ContentDisplay.TOP);
 
-        tbMainWindow.getItems().addAll(btnNew, btnOpen, btnSaveAs, btnPrint, new Separator(),
+        tbMainWindow.getItems().addAll(btnNew, btnSaveAs, btnOpen, btnOpenRep, btnMakeRep, btnPrint, new Separator(),
                 btnFlipBoard, new Separator(),
                 btnCopyGame, btnCopyPosition, btnPaste, btnEnterPosition, new Separator(),
                 btnFullAnalysis, new Separator(),

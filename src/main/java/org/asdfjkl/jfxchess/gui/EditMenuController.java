@@ -79,7 +79,28 @@ public class EditMenuController {
         }
     }
 
+    //nrv changes start
+
+    //open repertoire
+    public void  openRep(double dialogHeight, BoardStyle style){
+
+        //open a repertoire
+        
+    }
+
+    //make a repertoire
+    public void makeRep(double dialogHeight, BoardStyle style){
+
+        Board board = gameModel.getGame().getCurrentNode().getBoard();
+        DialogMakeRepertoire dlg = new DialogMakeRepertoire();
+        double width = dialogHeight* 1.6;
+        boolean accepted = dlg.show(board, style, width, dialogHeight, gameModel.THEME);
+
+    }
+    //nrv changes end
+
     public void editGameData() {
+
         DialogEditGameData dlg = new DialogEditGameData();
         boolean accteped = dlg.show(gameModel.getGame().getPgnHeaders(),
                 gameModel.getGame().getResult(),

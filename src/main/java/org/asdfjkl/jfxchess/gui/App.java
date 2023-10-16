@@ -98,6 +98,7 @@ public class App extends Application implements StateChangeListener {
         Menu mnuMode = new Menu("Mode");
         Menu mnuView = new Menu("View");
         Menu mnuDatabase = new Menu("Database");
+        Menu mnuRepertoire = new Menu("Repertoire");
         Menu mnuHelp = new Menu("Help");
 
         // File Menu
@@ -178,19 +179,27 @@ public class App extends Application implements StateChangeListener {
 
         mnuDatabase.getItems().addAll(itmBrowseDatabase, itmNextGame, itmPreviousGame);
 
+        // Repertoire Menu
+        MenuItem itmBrowseRepertoires = new MenuItem("Browse Repertoire");
+        mnuRepertoire.getItems().addAll(itmBrowseRepertoires);
+
         // Help Menu
         MenuItem itmAbout = new MenuItem("About");
         MenuItem itmJerryHomepage = new MenuItem("JFXChess - Homepage");
 
         mnuHelp.getItems().addAll(itmAbout, itmJerryHomepage);
 
-        mnuBar.getMenus().addAll(mnuFile, mnuEdit, mnuMode, mnuView, mnuDatabase, mnuHelp);
 
+        mnuBar.getMenus().addAll(mnuFile, mnuEdit, mnuMode, mnuView, mnuDatabase, mnuRepertoire, mnuHelp);
         // TOOLBAR
         tbMainWindow = new ToolBar();
         Button btnNew = new Button("New");
         btnNew.setGraphic(new ImageView( new Image("icons/document-new.png")));
         btnNew.setContentDisplay(ContentDisplay.TOP);
+        
+        Button btnOpen = new Button("Open File");
+        btnOpen.setGraphic(new ImageView( new Image("icons/document-open.png")));
+        btnOpen.setContentDisplay(ContentDisplay.TOP);
 
         Button btnMakeRep = new Button("New Repertoire");
         btnMakeRep.setGraphic(new ImageView( new Image("icons/database.png")));
@@ -199,10 +208,6 @@ public class App extends Application implements StateChangeListener {
         Button btnOpenRep = new Button("Open Repertoire");
         btnOpenRep.setGraphic(new ImageView( new Image("icons/database.png")));
         btnOpenRep.setContentDisplay(ContentDisplay.TOP);
-
-        Button btnOpen = new Button("Open File");
-        btnOpen.setGraphic(new ImageView( new Image("icons/document-open.png")));
-        btnOpen.setContentDisplay(ContentDisplay.TOP);
 
         Button btnSaveAs = new Button("Save Game");
         btnSaveAs.setGraphic(new ImageView( new Image("icons/document-save.png")));
@@ -611,6 +616,18 @@ public class App extends Application implements StateChangeListener {
             gameMenuController.handleSaveCurrentGame();
         });
 
+        //nrv changes
+        btnOpenRep.setOnAction(e -> {
+            double height = stage.getHeight() * 0.8;
+            editMenuController.openRep(height, chessboard.boardStyle);
+        });
+
+        btnMakeRep.setOnAction(e -> {
+            double height = stage.getHeight() *0.8;
+            editMenuController.makeRep(height, chessboard.boardStyle);
+        });
+        //end nrv changes
+        
         btnPrint.setOnAction(e -> {
             gameMenuController.handlePrintGame(stage);
         });

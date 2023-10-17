@@ -93,8 +93,11 @@ public class EditMenuController {
 
         Board board = gameModel.getGame().getCurrentNode().getBoard();
         DialogMakeRepertoire dlg = new DialogMakeRepertoire();
-        double width = dialogHeight* 1.6;
-        boolean accepted = dlg.show(board, style, width, dialogHeight, gameModel.THEME);
+        double width = dialogHeight * 5;
+        boolean accepted = dlg.show(board, style, width, gameModel.THEME);
+        if(accepted){
+            // ????
+        }
 
     }
     //nrv changes end

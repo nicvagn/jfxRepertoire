@@ -27,6 +27,7 @@ import jfxtras.styles.jmetro.Style;
 import org.asdfjkl.jfxchess.lib.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 
 /**
@@ -305,13 +306,71 @@ public class App extends Application implements StateChangeListener {
 
         BookView bookView = new BookView(gameModel);
 
+        //nrv  =========================================================================================================
+        // create menu items for testing
+        MenuItem m1 = new MenuItem("Anderssen's Opening, Polish Gambit: 1...a5 2.b4");
+        MenuItem m2 = new MenuItem("Anderssen's Opening, Bugayev Attack: 1...e5 2.b4");
+        MenuItem m3 = new MenuItem("Anderssen's Opening, Creepy Crawly Formation: 1...e5 2.h3 d5");
+        MenuItem m4 = new MenuItem("Anderssen's Opening, Andersspike: 1...g6 2.g4");
+        MenuItem m5 = new MenuItem("Anderssen's Opening, Polish Gambit: 1...a5 2.b4");
+        MenuItem m6 = new MenuItem("Anderssen's Opening, Bugayev Attack: 1...e5 2.b4");
+        MenuItem m7 = new MenuItem("Anderssen's Opening, Creepy Crawly Formation: 1...e5 2.h3 d5");
+
+        //test data for display config
+        Button G1 = new Button("Kasparov vs. Topalov, Wijk aan Zee 1999");
+        Button G2 = new Button("Morphy vs. Allies, Paris Opera 1858");
+        Button G3 = new Button("Aronian vs. Anand, Wijk aan Zee 2013");
+        Button G4 = new Button("Karpov vs. Kasparov, World Championship 1985, game 16");
+        Button G5 = new Button("Morphy vs. Allies, Paris Opera 1858");
+        Button G6 = new Button("Aronian vs. Anand, Wijk aan Zee 2013");
+        Button[] G = {G1,G2,G3,G4,G5,G6};
+
+        // create Array and pane for instructive games
+        ArrayList<Button> instructiveGamesBtns = new ArrayList<>(15);
+
+        //populate instructive games te
+        for(int i = 0; i < 6; i++){
+            instructiveGamesBtns.add(G[i]);
+        }
+
+
+        // create a menu button of Chess lines
+        MenuButton chessLines = new MenuButton("Anderssen's Opening", null, m1, m2, m3, m4, m5, m6, m7);
+        //instructive games
+        Label instructiveGamesLbl = new Label("Instructive Games:");
+        VBox instructiveGames = new VBox(instructiveGamesLbl);
+
+
+        ListIterator<Button> I_G_iter = instructiveGamesBtns.listIterator();
+        //populate instructiveGames, and set each button to call RC.setGame(it's self)
+        while (I_G_iter.hasNext()) {
+            Button instructiveG = I_G_iter.next();
+            instructiveGames.getChildren().add(instructiveG);
+            instructiveG.setOnAction(e -> RepertoireController.setGame(instructiveG));
+        }
+
+
+        //container
+        BorderPane reperBordrPane = new BorderPane();
+
+        //make label for chess lines
+        Label chessLinesLbl = new Label("Repertoire Line:");
+        VBox chessLinesBx = new VBox(chessLinesLbl, chessLines);
+
+
+        reperBordrPane.setLeft(chessLinesBx);
+        reperBordrPane.setCenter(instructiveGames);
+
+        //nrv changes end =============================================================================================
+
         Tab tabMoves = new Tab("Moves", moveView.getWebView());
-        Tab tabNotation = new Tab("Score Sheet"  , new Label("score sheet"));
+        //Tab tabNotation = new Tab("Score Sheet"  , new Label("score sheet"));
+        Tab tabRepertoire = new Tab("Repertoire", reperBordrPane); //make a tab for our new feature
         //Tab tabBook = new Tab("Book" , new Label("book"));
         Tab tabBook = new Tab("Book" , bookView.bookTable);
 
         //tabPaneMovesNotationBook.getTabs().addAll(tabMoves, tabNotation, tabBook);
-        tabPaneMovesNotationBook.getTabs().addAll(tabMoves, tabBook);
+        tabPaneMovesNotationBook.getTabs().addAll(tabMoves, tabBook, tabRepertoire);
         tabPaneMovesNotationBook.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabPaneMovesNotationBook.getStyleClass().add("underlined");
 

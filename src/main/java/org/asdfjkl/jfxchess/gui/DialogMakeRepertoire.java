@@ -77,15 +77,13 @@ public class DialogMakeRepertoire {
 
     Stage stage; //main stage
 
-
     public void show(Board board, BoardStyle style, double width, int colorTheme){
 
-        setUp();
+        setUp(board);  //made a separate function bc dum dum
 
         stage = new Stage(); //create new stage (window)
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        repertoireBoard = new RepertoireBoard(board);
 
         //lines
         VBox lines = new VBox(chessLines);
@@ -163,6 +161,12 @@ public class DialogMakeRepertoire {
         stage.getIcons().add(new Image("icons/app_icon.png"));
 
         stage.showAndWait();
+
+        //set flipBoard button to flip the board
+        btnFlipBoard.setOnAction(e -> {
+            repertoireBoard.flipBoard();
+            repertoireBoard.updateCanvas();
+        });
     }
 
     //get the current board
@@ -170,9 +174,10 @@ public class DialogMakeRepertoire {
         return this.repertoireBoard.makeBoardCopy();
     }
 
-    private void setUp(){
+    private void setUp(Board board){
         //I don-t really understand this, Was trying to get played moves to show up
         gameModel.addListener(moveView);
+        repertoireBoard = new RepertoireBoard(board);
 
         //setup action buttons
         btnFlipBoard.setMinWidth(140);

@@ -44,7 +44,7 @@ public class RepertoireBoard extends Canvas {
     private final ArrayList<EnterPosBoardListener> enterPosBoardListeners = new ArrayList<>();
     BoardStyle boardStyle;
     final double outputScaleX;
-    boolean flipBoard = false;
+    boolean flipBoard = true;
 
     int innerXOffset;
     int innerYOffset;
@@ -149,6 +149,12 @@ public class RepertoireBoard extends Canvas {
         }
     }
 
+    //flip the board
+    public void flipBoard(){
+        flipBoard = false;
+        updateCanvas();
+    }
+
     public void updateCanvas() {
 
         GraphicsContext gc = this.getGraphicsContext2D();
@@ -175,8 +181,8 @@ public class RepertoireBoard extends Canvas {
         squareSize = ((boardSize - (2* borderMargin)) / 8);
 
         if(width > height) {
-            int widthBoardincPieceSel = (((boardSize - (4* borderMargin)) / 8))*12;
-            int surplus = (int) (widthBoardincPieceSel - height);
+            int widthBoard = boardSize;
+            int surplus = (int) (widthBoard - height);
             xOffset += (surplus/2)+1;
         }
 
@@ -251,7 +257,7 @@ public class RepertoireBoard extends Canvas {
                 gc.fillText(idx, innerXOffset + (i * squareSize) + (squareSize / 2) - 4,
                         innerYOffset + (8 * squareSize) + (borderMargin * 0.8));
                 gc.fillText(num, xOffset + 5, innerYOffset + (i * squareSize) + (squareSize / 2) + 4);
-            } else{
+            }else{
                 char ch = (char) (65 + i);
                 String idx = Character.toString(ch);
                 String num = Integer.toString(8 - i);
@@ -299,8 +305,6 @@ public class RepertoireBoard extends Canvas {
                 }
             }
         }
-
-
 
         // draw grabbed piece
         if (grabbedPiece.getDrawImage()) {

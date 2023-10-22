@@ -79,41 +79,6 @@ public class EditMenuController {
         }
     }
 
-    // nrv changes start
-    public void makeRepertoire(double dialogHeight, BoardStyle style) {
-
-        Board board = gameModel.getGame().getCurrentNode().getBoard();
-        DialogMakeRepertoire dlg = new DialogMakeRepertoire();
-        double width = dialogHeight * 1.6;
-        //double width = dialogHeight * 1.7;
-        dlg.show(board, style, width, gameModel.THEME);
-        Board newBoard = dlg.getCurrentBoard();
-        Game g = new Game();
-        g.getRootNode().setBoard(newBoard);
-        gameModel.setGame(g);
-        gameModel.getGame().setTreeWasChanged(true);
-        gameModel.getGame().setHeaderWasChanged(true);
-        gameModel.triggerStateChange();
-    }
-
-    //open repertoire
-    public void  openRep(double dialogHeight, BoardStyle style){
-
-        //open a repertoire
-        
-    }
-
-    //make a repertoire
-    public void makeRep(double dialogHeight, BoardStyle style){
-
-        Board board = gameModel.getGame().getCurrentNode().getBoard();
-        DialogMakeRepertoire dlg = new DialogMakeRepertoire();
-        double width = dialogHeight * 5;
-        dlg.show(board, style, width, gameModel.THEME);
-
-    }
-    //nrv changes end
-
     public void editGameData() {
 
         DialogEditGameData dlg = new DialogEditGameData();
@@ -160,5 +125,4 @@ public class EditMenuController {
 
         }
     }
-
 }

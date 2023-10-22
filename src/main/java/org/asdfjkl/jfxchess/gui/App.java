@@ -1,6 +1,8 @@
 package org.asdfjkl.jfxchess.gui;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -46,6 +48,8 @@ public class App extends Application implements StateChangeListener {
     SplitPane spMain;
 
     ModeMenuController modeMenuController;
+    //create empty Repertoire Controller in App body scope
+    RepertoireController repertoireController; 
 
     RadioMenuItem itmEnterMoves;
 
@@ -66,6 +70,18 @@ public class App extends Application implements StateChangeListener {
     final KeyCombination keyCombinationEnterMoves = new KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_DOWN);
 
     String moveBuffer = "";
+
+    /*
+    private void showInstructiveGame(InstructiveGame instructiveGame) {
+        gameModel.wasSaved = false;
+        gameModel.currentPgnDatabaseIdx = -1;
+        Game g = instructiveGame.getGame();
+        g.getRootNode().setBoard(new Board(true));
+        gameModel.setGame(g);
+        gameModel.getGame().setTreeWasChanged(true);
+        gameModel.getGame().setHeaderWasChanged(true);
+
+    } */
 
     @Override
     public void start(Stage stage) {
@@ -288,6 +304,7 @@ public class App extends Application implements StateChangeListener {
          */
         MoveView moveView = new MoveView(gameModel);
 
+
         // Navigation Buttons
         Button btnMoveBegin = new Button();
         btnMoveBegin.setGraphic(new ImageView( new Image("icons/go-first.png")));
@@ -307,8 +324,24 @@ public class App extends Application implements StateChangeListener {
         BookView bookView = new BookView(gameModel);
 
         //nrv  =========================================================================================================
+        //nrv: initialize Rep. Controler
+        repertoireController = new RepertoireController(gameModel);
+
+        Button btnSaveRep = new Button("Save Repertoire");
+        Button btnImportGame = new Button("Import Game");
+        VBox actionButtons = new VBox(10); //container for action buttons
+
+
+        btnSaveRep.setMinWidth(140);
+        btnSaveRep.setGraphic(new ImageView(new Image("icons/document-save.png")));
+
+        btnImportGame.setMinWidth(140);
+        btnImportGame.setGraphic(new ImageView(new Image("icons/document-enter-position.png")));
+
+        //add the buttons to a HBox for easy grouping
+        actionButtons.getChildren().addAll(btnSaveRep, btnImportGame);
+
         // create menu items for testing
-        MenuItem m1 = new MenuItem("Anderssen's Opening, Polish Gambit: 1...a5 2.b4");
         MenuItem m2 = new MenuItem("Anderssen's Opening, Bugayev Attack: 1...e5 2.b4");
         MenuItem m3 = new MenuItem("Anderssen's Opening, Creepy Crawly Formation: 1...e5 2.h3 d5");
         MenuItem m4 = new MenuItem("Anderssen's Opening, Andersspike: 1...g6 2.g4");
@@ -316,40 +349,50 @@ public class App extends Application implements StateChangeListener {
         MenuItem m6 = new MenuItem("Anderssen's Opening, Bugayev Attack: 1...e5 2.b4");
         MenuItem m7 = new MenuItem("Anderssen's Opening, Creepy Crawly Formation: 1...e5 2.h3 d5");
 
-        //test data for display config
-        Button G1 = new Button("Kasparov vs. Topalov, Wijk aan Zee 1999");
-        Button G2 = new Button("Morphy vs. Allies, Paris Opera 1858");
-        Button G3 = new Button("Aronian vs. Anand, Wijk aan Zee 2013");
-        Button G4 = new Button("Karpov vs. Kasparov, World Championship 1985, game 16");
-        Button G5 = new Button("Morphy vs. Allies, Paris Opera 1858");
-        Button G6 = new Button("Aronian vs. Anand, Wijk aan Zee 2013");
-        Button[] G = {G1,G2,G3,G4,G5,G6};
 
-        // create Array and pane for instructive games
-        ArrayList<Button> instructiveGamesBtns = new ArrayList<>(15);
+        // test data for display config
+        Board testBoard = new Board("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
+        Board testBoard2 = new Board("rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 2");
+        
+        //G1
+        Game testGame = new Game(); // game for testing what stuff does
+        GameNode testGameNode = new GameNode(); //and a gamenode
 
-        //populate instructive games te
-        for(int i = 0; i < 6; i++){
-            instructiveGamesBtns.add(G[i]);
-        }
+        testGameNode.setBoard(testBoard);
+        testGame.setCurrent(testGameNode); //correlate the game and node
+        
+        //G2
+        Game tesGame2 = new Game();
+        GameNode tGameNode2 = new GameNode();
 
+        tGameNode2.setBoard(testBoard2);
+        tesGame2.setCurrent(tGameNode2);
 
-        // create a menu button of Chess lines
-        MenuButton chessLines = new MenuButton("Anderssen's Opening", null, m1, m2, m3, m4, m5, m6, m7);
+        //make move to see if it works
+        Move testMove = new Move("a2a4");
+        testGame.applyMove(testMove);
+        InstructiveGame G1 = new InstructiveGame(testGame, "test game 1", gameModel);
+        InstructiveGame G2 = new InstructiveGame(tesGame2, "test game 2", gameModel);
+
         //instructive games
         Label instructiveGamesLbl = new Label("Instructive Games:");
-        VBox instructiveGames = new VBox(instructiveGamesLbl);
+        VBox instructiveGamesVBox = new VBox(instructiveGamesLbl);
 
+        //create rep. lines for testing
 
-        ListIterator<Button> I_G_iter = instructiveGamesBtns.listIterator();
-        //populate instructiveGames, and set each button to call RC.setGame(it's self)
-        while (I_G_iter.hasNext()) {
-            Button instructiveG = I_G_iter.next();
-            instructiveGames.getChildren().add(instructiveG);
-            instructiveG.setOnAction(e -> RepertoireController.setGame(instructiveG));
-        }
+        InstructiveGame[] instructiveGames = {G1, G2};
 
+        ReperetoireLine line1 = new ReperetoireLine("Anderssen's Opening, Polish Gambit: 1...a5 2.b4", instructiveGames);
 
+        //create an observable list of rep. lines
+        ObservableList<ReperetoireLine> reperetoireLineList = FXCollections.observableArrayList(line1);
+
+        // display lines
+        SplitMenuButton chessLines = new SplitMenuButton();
+        chessLines.setText(line1.getText());
+        chessLines.getItems().addAll(reperetoireLineList);
+        chessLines.setMinWidth(300.0);
+       
         //container
         BorderPane reperBordrPane = new BorderPane();
 
@@ -359,7 +402,16 @@ public class App extends Application implements StateChangeListener {
 
 
         reperBordrPane.setLeft(chessLinesBx);
-        reperBordrPane.setCenter(instructiveGames);
+        reperBordrPane.setCenter(instructiveGamesVBox);
+        reperBordrPane.setBottom(actionButtons);
+
+        //try to set the main game
+        G1.setOnAction(e -> {
+            repertoireController.setMainGame(G1.getGame());
+        });
+        G2.setOnAction(e -> {
+            repertoireController.setMainGame(G2.getGame());
+        });
 
         //nrv changes end =============================================================================================
 
@@ -675,17 +727,18 @@ public class App extends Application implements StateChangeListener {
             gameMenuController.handleSaveCurrentGame();
         });
 
-        //nrv changes
+        //nrv changes =======================================================================================================
         btnOpenRep.setOnAction(e -> {
-            double height = stage.getHeight() * 0.8;
-            editMenuController.openRep(height, chessboard.boardStyle);
+            repertoireController.handleOpenRepertoire();
         });
 
         btnMakeRep.setOnAction(e -> {
             double height = stage.getHeight() *0.8;
-            editMenuController.makeRep(height, chessboard.boardStyle);
+            repertoireController.makeRep(height, chessboard.boardStyle);
         });
-        //end nrv changes
+
+
+        //end nrv changes =====================================================================================================
         
         btnPrint.setOnAction(e -> {
             gameMenuController.handlePrintGame(stage);

@@ -2,7 +2,13 @@ package org.asdfjkl.jfxchess.gui;
 
 import org.asdfjkl.jfxchess.lib.Board;
 import org.asdfjkl.jfxchess.lib.InstructiveGame;
+import org.asdfjkl.jfxchess.lib.RepertoireGamesController;
+import org.asdfjkl.jfxchess.lib.Repertoire;
+
+import javafx.scene.layout.VBox;
+
 import org.asdfjkl.jfxchess.lib.Game;
+import org.asdfjkl.jfxchess.lib.GameNode;
 
 import java.util.ArrayList;
 
@@ -11,49 +17,27 @@ import java.util.ArrayList;
  */
 public class RepertoireController {
 
-    GameModel gameModel;
+    private GameModel gameModel;
+    private RepertoireGamesController repertoireGamesController;
+
 
     /**
      * create a new  controller
      * @param gameModel - the game model, you need this to change the big board
      */
     public RepertoireController(GameModel gameModel){
+        this.repertoireGamesController = new RepertoireGamesController(null,gameModel);
         this.gameModel = gameModel;
     }
 
-    /**
-     * a helper function to set the initial instructive games
-     * @param instructiveGames an array of instructive games
-     * @return
-     */
-    public ArrayList<InstructiveGame> setInstructiveGames(InstructiveGame[] instructiveGames, GameModel gameModel){
-        ArrayList<InstructiveGame> instructiveGamesBtns = new ArrayList<>(instructiveGames.length);
-
-        int i = 0;
-        while (i < instructiveGames.length){
-            instructiveGamesBtns.add(instructiveGames[i]);
-            i++;
-        }
-        return instructiveGamesBtns;
-    }
 
     /**
-     * set the main board of the gui 
-     * @param board the board to set
+     * get the asociated RepertoireGameControler
+     * @return the RepertioreGameControler
      */
-    public void setMainGame(Game game){
+    public RepertoireGamesController getGamesController(){
+        return this.repertoireGamesController;
 
-        gameModel.setGame(game);
-        gameModel.triggerStateChange();
-
-    }
-
-    //open repertoire
-    public void  openRep(Game game){
-        //open a repertoire
-        gameModel.setGame(game);
-        gameModel.triggerStateChange();
-        
     }
 
     //make a repertoire
@@ -65,7 +49,23 @@ public class RepertoireController {
 
     }
 
-    public void handleOpenRepertoire() {
-        
+    /**
+     * Open a repetoire
+     * @param rep - repertoire to open
+     */
+    public void openRep(Repertoire rep) {
+        this.gameModel = rep.getGameModel();
+        gameModel.triggerStateChange();
+        this.repertoireGamesController = rep.getControler().getGamesController();
     }
+
+
+    /**
+     * daoes this repertoire line have example games?
+     * @return if it does
+     */
+    public boolean hasGames() {
+        return this.repertoireGamesController.hasGames();
+    }
+
 }

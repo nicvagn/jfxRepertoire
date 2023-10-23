@@ -18,15 +18,24 @@
 
 package org.asdfjkl.jfxchess.lib;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javafx.event.Event;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
 
-public class OpenGame extends Event{
+public class OpenGame implements ActionListener{
 
-    public OpenGame(EventType<? extends Event> eventType) {
-        super(eventType);
+    public OpenGame() {
+
         //TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
     
     

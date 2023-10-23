@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -28,15 +29,16 @@ import javafx.scene.image.ImageView;
 import jfxtras.styles.jmetro.Style;
 import org.asdfjkl.jfxchess.lib.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.ListIterator;
+
 
 
 /**
  * JavaFX App
  */
 public class App extends Application implements StateChangeListener {
-
     Text txtGameData;
     GameModel gameModel;
     EngineOutputView engineOutputView;
@@ -48,8 +50,13 @@ public class App extends Application implements StateChangeListener {
     SplitPane spMain;
 
     ModeMenuController modeMenuController;
+    
+    //nrv
     //create empty Repertoire Controller in App body scope
-    RepertoireController repertoireController; 
+    Repertoire repertoire; 
+
+    OpenGame openGame = new OpenGame();
+    //nrv
 
     RadioMenuItem itmEnterMoves;
 
@@ -325,99 +332,15 @@ public class App extends Application implements StateChangeListener {
 
         //nrv  =========================================================================================================
         //nrv: initialize Rep. Controler
-        repertoireController = new RepertoireController(gameModel);
 
-        Button btnSaveRep = new Button("Save Repertoire");
-        Button btnImportGame = new Button("Import Game");
-        VBox actionButtons = new VBox(10); //container for action buttons
+        repertoire = new Repertoire("My first rep.", gameModel);
 
-
-        btnSaveRep.setMinWidth(140);
-        btnSaveRep.setGraphic(new ImageView(new Image("icons/document-save.png")));
-
-        btnImportGame.setMinWidth(140);
-        btnImportGame.setGraphic(new ImageView(new Image("icons/document-enter-position.png")));
-
-        //add the buttons to a HBox for easy grouping
-        actionButtons.getChildren().addAll(btnSaveRep, btnImportGame);
-
-        // create menu items for testing
-        MenuItem m2 = new MenuItem("Anderssen's Opening, Bugayev Attack: 1...e5 2.b4");
-        MenuItem m3 = new MenuItem("Anderssen's Opening, Creepy Crawly Formation: 1...e5 2.h3 d5");
-        MenuItem m4 = new MenuItem("Anderssen's Opening, Andersspike: 1...g6 2.g4");
-        MenuItem m5 = new MenuItem("Anderssen's Opening, Polish Gambit: 1...a5 2.b4");
-        MenuItem m6 = new MenuItem("Anderssen's Opening, Bugayev Attack: 1...e5 2.b4");
-        MenuItem m7 = new MenuItem("Anderssen's Opening, Creepy Crawly Formation: 1...e5 2.h3 d5");
-
-
-        // test data for display config
-        Board testBoard = new Board("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
-        Board testBoard2 = new Board("rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 2");
-        
-        //G1
-        Game testGame = new Game(); // game for testing what stuff does
-        GameNode testGameNode = new GameNode(); //and a gamenode
-
-        testGameNode.setBoard(testBoard);
-        testGame.setCurrent(testGameNode); //correlate the game and node
-        
-        //G2
-        Game tesGame2 = new Game();
-        GameNode tGameNode2 = new GameNode();
-
-        tGameNode2.setBoard(testBoard2);
-        tesGame2.setCurrent(tGameNode2);
-
-        //make move to see if it works
-        Move testMove = new Move("a2a4");
-        testGame.applyMove(testMove);
-        InstructiveGame G1 = new InstructiveGame(testGame, "test game 1", gameModel);
-        InstructiveGame G2 = new InstructiveGame(tesGame2, "test game 2", gameModel);
-
-        //instructive games
-        Label instructiveGamesLbl = new Label("Instructive Games:");
-        VBox instructiveGamesVBox = new VBox(instructiveGamesLbl);
-
-        //create rep. lines for testing
-
-        InstructiveGame[] instructiveGames = {G1, G2};
-
-        ReperetoireLine line1 = new ReperetoireLine("Anderssen's Opening, Polish Gambit: 1...a5 2.b4", instructiveGames);
-
-        //create an observable list of rep. lines
-        ObservableList<ReperetoireLine> reperetoireLineList = FXCollections.observableArrayList(line1);
-
-        // display lines
-        SplitMenuButton chessLines = new SplitMenuButton();
-        chessLines.setText(line1.getText());
-        chessLines.getItems().addAll(reperetoireLineList);
-        chessLines.setMinWidth(300.0);
-       
-        //container
-        BorderPane reperBordrPane = new BorderPane();
-
-        //make label for chess lines
-        Label chessLinesLbl = new Label("Repertoire Line:");
-        VBox chessLinesBx = new VBox(chessLinesLbl, chessLines);
-
-
-        reperBordrPane.setLeft(chessLinesBx);
-        reperBordrPane.setCenter(instructiveGamesVBox);
-        reperBordrPane.setBottom(actionButtons);
-
-        //try to set the main game
-        G1.setOnAction(e -> {
-            repertoireController.setMainGame(G1.getGame());
-        });
-        G2.setOnAction(e -> {
-            repertoireController.setMainGame(G2.getGame());
-        });
 
         //nrv changes end =============================================================================================
 
         Tab tabMoves = new Tab("Moves", moveView.getWebView());
         //Tab tabNotation = new Tab("Score Sheet"  , new Label("score sheet"));
-        Tab tabRepertoire = new Tab("Repertoire", reperBordrPane); //make a tab for our new feature
+        Tab tabRepertoire = repertoire.getTab(); //make a tab for our new feature
         //Tab tabBook = new Tab("Book" , new Label("book"));
         Tab tabBook = new Tab("Book" , bookView.bookTable);
 
@@ -727,7 +650,7 @@ public class App extends Application implements StateChangeListener {
             gameMenuController.handleSaveCurrentGame();
         });
 
-        //nrv changes =======================================================================================================
+        /*/nrv changes =======================================================================================================
         btnOpenRep.setOnAction(e -> {
             repertoireController.handleOpenRepertoire();
         });
@@ -738,7 +661,7 @@ public class App extends Application implements StateChangeListener {
         });
 
 
-        //end nrv changes =====================================================================================================
+        /*///end nrv changes =====================================================================================================
         
         btnPrint.setOnAction(e -> {
             gameMenuController.handlePrintGame(stage);

@@ -46,6 +46,7 @@ import java.util.ArrayList;
  * Controller for repertoire 
  */
 public class RepertoireController {
+	
     //currently open repertoire
     private Repertoire openRepertoire;
     //list of all repertoires under this controler

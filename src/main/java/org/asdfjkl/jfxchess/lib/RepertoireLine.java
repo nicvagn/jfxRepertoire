@@ -42,6 +42,7 @@ public class RepertoireLine extends MenuItem {
      * @param repertoireController
      */
     public RepertoireLine(String name, RepertoireController repertoireController){
+
         super(name); //super constructer for Button()
         this.instructiveGames = new InstructiveGame[0]; //construct a new line w/o inst games
         this.repertoireController = repertoireController;
@@ -54,6 +55,7 @@ public class RepertoireLine extends MenuItem {
      * @param repertoireController
      */
     public RepertoireLine(String name, InstructiveGame[] instructiveGames, RepertoireController repertoireController){
+
         super(name); //super constructer for Button()
         this.instructiveGames = instructiveGames;
         this.repertoireController = repertoireController;
@@ -64,6 +66,7 @@ public class RepertoireLine extends MenuItem {
      * @return array of instructiveGame
      */
     public InstructiveGame[] getIntructGames(){
+
         return this.instructiveGames;
     }
 
@@ -71,6 +74,7 @@ public class RepertoireLine extends MenuItem {
      * add an instructiveGamesuctive Game to this line
      */
     public void addinstructiveGame(InstructiveGame game){
+
         //if instructive games has 1 or more elements
         if(instructiveGames.length > 0){
             InstructiveGame[] newinstructiveGames = new InstructiveGame[this.instructiveGames.length];
@@ -93,6 +97,7 @@ public class RepertoireLine extends MenuItem {
      * @return the name
      */
     public String getlineName(){
+
         return this.getText();
     }
 
@@ -100,6 +105,7 @@ public class RepertoireLine extends MenuItem {
      * @return the tittle of the line
      */
     public String toString(){
+        
         return this.getText(); 
     }
 }

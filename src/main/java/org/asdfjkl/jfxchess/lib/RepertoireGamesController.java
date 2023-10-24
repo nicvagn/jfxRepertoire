@@ -48,11 +48,13 @@ public class RepertoireGamesController {
     public Object setInstructiveGames;
 
     public RepertoireGamesController(InstructiveGame[] instructiveGames, RepertoireController repController) {
+      
         this.instructiveGames = instructiveGames;
         Label repGamesLbl = new Label("Line example Games");
         instructiveGamesVBox = new VBox(repGamesLbl);
 
         if(instructiveGames != null){
+            
             // go through list of instructive games and add them to vbox
             for (int i = 0; i < instructiveGames.length; i++) {
                 instructiveGamesVBox.getChildren().add(instructiveGames[i]);
@@ -61,16 +63,19 @@ public class RepertoireGamesController {
     }
 
     public RepertoireGamesController(RepertoireController repController) {
+    
         this.instructiveGames = new InstructiveGame[0];
 
         Label repGamesLbl = new Label("Line example Games");
         instructiveGamesVBox = new VBox(repGamesLbl);
     }
+
     /**
      * add an instructive game
      * @param ig instructive game
      */
     public void addInstructiveGame(InstructiveGame ig){
+
         addGame(ig);
         instructiveGamesVBox.getChildren().add(ig);
 
@@ -83,6 +88,7 @@ public class RepertoireGamesController {
      * @return
      */
     public ArrayList<InstructiveGame> setInstructiveGames(InstructiveGame[] instructiveGames){
+
         ArrayList<InstructiveGame> instructiveGamesBtns = new ArrayList<>(instructiveGames.length);
 
         int i = 0;
@@ -98,6 +104,7 @@ public class RepertoireGamesController {
      * @return the vBox
      */
     public VBox getInstructiveGamesVBox(){
+
         return this.instructiveGamesVBox;
     }
 
@@ -106,6 +113,7 @@ public class RepertoireGamesController {
      * @return Game - Instructive Game
      */
     public InstructiveGame makeInstructiveGame(String title){
+
         Game tempGame = new Game();
 
         InstructiveGame instructiveGame = new InstructiveGame(title);
@@ -117,6 +125,7 @@ public class RepertoireGamesController {
      * @return Game - InstructiveGame with its board set to fen 
      */
     public InstructiveGame makeInstructiveGame(String title, String fen){
+        
         Game tempGame = new Game();
         Board tempBoard = new Board(fen);
 
@@ -145,6 +154,7 @@ public class RepertoireGamesController {
      * @return this.hasGames
      */
     public boolean hasGames(){
+
         return this.hasGames;
     }
 
@@ -155,6 +165,7 @@ public class RepertoireGamesController {
      * @return {arr + ig}
      */
     private void  addGame(InstructiveGame ig) { 
+       
         int n = instructiveGames.length; 
    
         // create a new array of size n+1 

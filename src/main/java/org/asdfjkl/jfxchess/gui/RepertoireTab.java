@@ -58,10 +58,18 @@ public class RepertoireTab extends Tab {
 
 
 	/**
-    * init a tab with a repertire
-    */
+ 	 * init a tab with a repertire
+	 */
 	public RepertoireTab(){
-		super("Repertoire");
+
+		init();
+    }
+
+	/**
+	 * init a tab with a repet
+	 */
+	private void init(){
+		
     	btnSaveRep.setMinWidth(140);
     	btnSaveRep.setGraphic(new ImageView(new Image("icons/document-save.png")));
 
@@ -90,6 +98,5 @@ public class RepertoireTab extends Tab {
 
 		//set the pane content to the constructed pane
 		this.setContent(repertoirePane);
-    }
-
+	}
 }

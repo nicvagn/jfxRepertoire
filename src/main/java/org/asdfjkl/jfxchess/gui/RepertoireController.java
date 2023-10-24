@@ -1,3 +1,22 @@
+/* JerryFX - A Chess Graphical User Interface with rep. Builder
+ * Copyright (C) 2023 Nicolas Vaagen
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+
 package org.asdfjkl.jfxchess.gui;
 
 import org.asdfjkl.jfxchess.lib.Board;
@@ -41,11 +60,9 @@ public class RepertoireController {
     //set up a handler for opening lines from the choiceBox to main board
     private OpenRepLinesHandler repLinesHandler;
 
-
-
     //current repertoire stuff
     private RepertoireLine currentLine; //the currently displayed line in choiceBox
-    private Tab repertoireTab;
+    private RepertoireTab repertoireTab = new RepertoireTab();
     private Label repLinesLbl;
     private BorderPane repertoirePane; 
 
@@ -75,7 +92,6 @@ public class RepertoireController {
         //make a game controler for this controler
         this.gamesController = new RepertoireGamesController(this);
 
-        init(); //call stuff common to all initializers
     }
 
     /**
@@ -90,7 +106,6 @@ public class RepertoireController {
         //open the first repertoire of the list
         openRepertoire(repertoires.get(0));
 
-        init(); //call stuff common to all initializers
     }
 
     /**
@@ -101,6 +116,7 @@ public class RepertoireController {
 
         openRepertoire = rep;
         gameModel.triggerStateChange();
+
     }
 
     /**
@@ -134,7 +150,7 @@ public class RepertoireController {
      * get the rep. tab for display on the main gui
      * @return the tab
      */
-    public Tab getRepertoireTab(){
+    public RepertoireTab getRepertoireTab(){
 
         return repertoireTab;
     }
@@ -153,57 +169,7 @@ public class RepertoireController {
         openRepertoire(rep);
 		// add the rep to the list of reps
 		repertoires.add(rep);
-		
+
         return rep;
     }
-
-
-
-    /**
-     * set up the Repertoire. Stuff that is common to all constructors
-     */
-    private void init(){
-
-        // create buttons
-        Button btnSaveRep = new Button("Save Repertoire");
-        Button btnImportGame = new Button("Import Game");
-        VBox actionButtons = new VBox(10); //container for action buttons
-        
-        btnSaveRep.setMinWidth(140);
-        btnSaveRep.setGraphic(new ImageView(new Image("icons/document-save.png")));
-
-        btnImportGame.setMinWidth(140);
-        btnImportGame.setGraphic(new ImageView(new Image("icons/document-enter-position.png")));
-
-        //add the buttons to a HBox for easy grouping
-        actionButtons.getChildren().addAll(btnSaveRep, btnImportGame);
-        
-        // set up lines choicebox
-        ChoiceBox<RepertoireLine> repertoireLines = new ChoiceBox<>();
-
-        //link method setInstructiveGames to the choicebox
-        repertoireLines.setOnAction(repLinesHandler::handle);
-
-        ObservableList repertoireLineList;
-        repertoireLines.setMinWidth(300.0);
-
-       
-        //container
-        repertoirePane = new BorderPane();
-
-        //make VBox for chess lines
-        repLinesLbl = new Label("Repertoire Line:");
-        chessLinesBx = new VBox(repLinesLbl, repertoireLines);
- 
-        //set the chess lines choice box
-        repertoirePane.setLeft(repertoireLines);
-
-        //set te action buttons
-        repertoirePane.setBottom(actionButtons);
-
-        //create a tab for rep. information an populate it
-        repertoireTab = new Tab("Repertoire", repertoirePane);
-
-        //repertoirePane.setRight();
-    }   
 }

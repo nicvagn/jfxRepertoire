@@ -33,13 +33,13 @@ import java.util.HashMap;
 public class TestCases {
 
     Repertoire rep;
-    RepertoireController rc;
+    RepertoireController repContr;
     RepertoireGamesController gameControler;
     ArrayList<RepertoireLine> lines;    
 
     // test making a rep
     public Repertoire makeRep(){
-        return rc.getOpenRepertoire();
+        return repContr.getOpenRepertoire();
     }
 
     public void fenTest() {

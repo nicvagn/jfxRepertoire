@@ -57,6 +57,7 @@ public class Repertoire {
      * @param gameModel
      */
     public Repertoire(String repertoireName){
+
         this.repertoireName = repertoireName;
         repertoireLineList = FXCollections.observableArrayList();
     }
@@ -68,31 +69,33 @@ public class Repertoire {
      * @param lines ArrayList<RepertoireLine> of pre defined lines
      */
     public Repertoire(String repertoireName, ArrayList<RepertoireLine> lines){
-        this.repertoireName = repertoireName;
 
+        this.repertoireName = repertoireName;
 
         //make a ObservableList of lines
         repertoireLineList = FXCollections.observableArrayList(lines);
 
     }
 
-
-
     /**
      * get the asociated RepertoireGameControler
      * @return the RepertioreGameControler
      */
     public RepertoireGamesController getGamesController(){
+
         return controller.gamesController;
 
     }
 
 
+
     public GameModel getGameModel(){
+
         return controller.gameModel;
     }
 
     public ObservableList<RepertoireLine> getLines(){
+
         return this.repertoireLineList;
     }
     
@@ -102,6 +105,7 @@ public class Repertoire {
      * @return the name
      */
     public String getName(){
+
         return this.repertoireName;
     }
 
@@ -110,6 +114,7 @@ public class Repertoire {
      * @param line
      */
     public void addLine(RepertoireLine line){
+
         repertoireLineList.add(line);
     }
 }

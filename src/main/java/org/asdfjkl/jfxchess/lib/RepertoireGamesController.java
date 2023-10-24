@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import org.asdfjkl.jfxchess.gui.GameModel;
+import org.asdfjkl.jfxchess.gui.RepertoireController;
 
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -40,14 +41,14 @@ import javafx.stage.Stage;
  */
 public class RepertoireGamesController {
 
-    private GameModel gameModel;
+    private RepertoireController repController;
     private InstructiveGame[] instructiveGames;
     private VBox instructiveGamesVBox;
     boolean hasGames = false; //are there games?
+    public Object setInstructiveGames;
 
-    public RepertoireGamesController(InstructiveGame[] instructiveGames, GameModel gameModel) {
+    public RepertoireGamesController(InstructiveGame[] instructiveGames, RepertoireController repController) {
         this.instructiveGames = instructiveGames;
-        this.gameModel = gameModel;
         Label repGamesLbl = new Label("Line example Games");
         instructiveGamesVBox = new VBox(repGamesLbl);
 
@@ -59,8 +60,7 @@ public class RepertoireGamesController {
         }
     }
 
-    public RepertoireGamesController(GameModel gameModel) {
-        this.gameModel = gameModel;
+    public RepertoireGamesController(RepertoireController repController) {
         this.instructiveGames = new InstructiveGame[0];
 
         Label repGamesLbl = new Label("Line example Games");
@@ -77,13 +77,12 @@ public class RepertoireGamesController {
         hasGames = true;
     }
 
-
     /**
      * a helper function to set the initial instructive games
      * @param instructiveGames an array of instructive games
      * @return
      */
-    public ArrayList<InstructiveGame> setInstructiveGames(InstructiveGame[] instructiveGames, GameModel gameModel){
+    public ArrayList<InstructiveGame> setInstructiveGames(InstructiveGame[] instructiveGames){
         ArrayList<InstructiveGame> instructiveGamesBtns = new ArrayList<>(instructiveGames.length);
 
         int i = 0;
@@ -108,9 +107,8 @@ public class RepertoireGamesController {
      */
     public InstructiveGame makeInstructiveGame(String title){
         Game tempGame = new Game();
-        GameModel tempGameModel = new GameModel();
 
-        InstructiveGame instructiveGame = new InstructiveGame(tempGame, title, tempGameModel);
+        InstructiveGame instructiveGame = new InstructiveGame(title);
         return instructiveGame;
     }
 
@@ -121,14 +119,12 @@ public class RepertoireGamesController {
     public InstructiveGame makeInstructiveGame(String title, String fen){
         Game tempGame = new Game();
         Board tempBoard = new Board(fen);
-        GameModel tempGameModel = new GameModel();
 
         //set the board displaying fen
         tempGame.getRootNode().setBoard(tempBoard);
 
-        tempGameModel.setGame(tempGame);
 
-        InstructiveGame instructiveGame = new InstructiveGame(tempGame, title, tempGameModel);
+        InstructiveGame instructiveGame = new InstructiveGame(title);
         return instructiveGame;        
     }
 
@@ -139,8 +135,8 @@ public class RepertoireGamesController {
      */
     public void setMainGame(Game game){
 
-        gameModel.setGame(game);
-        gameModel.triggerStateChange();
+        repController.gameModel.setGame(game);
+        repController.gameModel.triggerStateChange();
 
     }
 

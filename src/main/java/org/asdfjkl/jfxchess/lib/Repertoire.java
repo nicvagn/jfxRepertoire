@@ -25,6 +25,7 @@ import org.asdfjkl.jfxchess.gui.GameModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -43,45 +44,21 @@ import javafx.scene.layout.VBox;
  */
 public class Repertoire {
 
-    private GameModel gameModel;
-    private RepertoireController repertoireController;
-    private RepertoireGamesController gamesController;
     private String repertoireName;
-    private Tab repertoireTab;
-    private Label repLinesLbl;
-    private BorderPane repertoirePane; 
+    private RepertoireController controller;
+
 
     //create an observable list for lines
     private ObservableList<RepertoireLine> repertoireLineList;
-
-    //choice box for chosing line
-    private ChoiceBox<RepertoireLine> repertoireLines;
-
-    //buttons for rep. Tab
-    private Button btnSaveRep;
-    private Button btnImportGame;
-
-    //VBox for the buttons
-    private VBox actionButtons;
-
-    //VBox for the lines
-    private VBox chessLinesBx;
-
 
     /**
      * construct an empty repertoire
      * @param repertoireName
      * @param gameModel
      */
-    public Repertoire(String repertoireName, GameModel gameModel, RepertoireController repertoireController){
+    public Repertoire(String repertoireName){
         this.repertoireName = repertoireName;
-        this.gameModel = gameModel;
-        this.repertoireController = repertoireController;
-        gamesController = repertoireController.getGamesController();
-
         repertoireLineList = FXCollections.observableArrayList();
-
-        init();
     }
 
     /**
@@ -90,96 +67,49 @@ public class Repertoire {
      * @param gameModel
      * @param lines ArrayList<RepertoireLine> of pre defined lines
      */
-    public Repertoire(String repertoireName, GameModel gameModel, RepertoireController repertoireController, ArrayList<RepertoireLine> lines){
+    public Repertoire(String repertoireName, ArrayList<RepertoireLine> lines){
         this.repertoireName = repertoireName;
-        this.gameModel = gameModel;
-        this.repertoireController = repertoireController;
-        gamesController = repertoireController.getGamesController();
 
 
         //make a ObservableList of lines
         repertoireLineList = FXCollections.observableArrayList(lines);
 
-        init();
-    }
-
-    public Tab getTab(){
-        return repertoireTab;
     }
 
 
-    public RepertoireController getControler(){
-        return this.repertoireController;
+
+    /**
+     * get the asociated RepertoireGameControler
+     * @return the RepertioreGameControler
+     */
+    public RepertoireGamesController getGamesController(){
+        return controller.gamesController;
+
     }
+
 
     public GameModel getGameModel(){
-        return this.gameModel;
+        return controller.gameModel;
     }
 
     public ObservableList<RepertoireLine> getLines(){
         return this.repertoireLineList;
     }
     
+
+    /**
+     * get the name of this Repertoire
+     * @return the name
+     */
+    public String getName(){
+        return this.repertoireName;
+    }
+
     /**
      * add a line to the repertoire
      * @param line
      */
     public void addLine(RepertoireLine line){
         repertoireLineList.add(line);
-        chessLinesBx = new VBox(repLinesLbl, repertoireLines);
-        repertoirePane.setLeft(chessLinesBx);
-
     }
-
-    public String getName(){
-        return this.repertoireName;
-    }
-
-
-    /**
-     * set up the Repertoire. Stuff that is common to all constructors
-     */
-    private void init(){
-        // create buttons
-        btnSaveRep = new Button("Save Repertoire");
-        btnImportGame = new Button("Import Game");
-        actionButtons = new VBox(10); //container for action buttons
-        
-        btnSaveRep.setMinWidth(140);
-        btnSaveRep.setGraphic(new ImageView(new Image("icons/document-save.png")));
-
-        btnImportGame.setMinWidth(140);
-        btnImportGame.setGraphic(new ImageView(new Image("icons/document-enter-position.png")));
-
-        //add the buttons to a HBox for easy grouping
-        actionButtons.getChildren().addAll(btnSaveRep, btnImportGame);
-        
-        // display lines
-        repertoireLines = new ChoiceBox<>();
-        repertoireLines.setItems(repertoireLineList);
-        repertoireLines.setMinWidth(300.0);
-
-       
-        //container
-        repertoirePane = new BorderPane();
-
-        //make VBox for chess lines
-        repLinesLbl = new Label("Repertoire Line:");
-        chessLinesBx = new VBox(repLinesLbl, repertoireLines);
- 
-        //set the chess lines choice box
-        repertoirePane.setLeft(repertoireLines);
-
-        //set the Instructive games
-        repertoirePane.setCenter(gamesController.getInstructiveGamesVBox());
-
-        //set te action buttons
-        repertoirePane.setBottom(actionButtons);
-
-
-        //create a tab for rep. information an populate it
-        repertoireTab = new Tab("Repertoire", repertoirePane);
-
-        //repertoirePane.setRight();
-    }   
 }

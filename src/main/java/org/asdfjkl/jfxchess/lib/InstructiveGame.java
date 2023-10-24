@@ -1,6 +1,9 @@
 package org.asdfjkl.jfxchess.lib;
 
-import org.asdfjkl.jfxchess.gui.GameModel;
+
+import java.util.ArrayList;
+
+import org.asdfjkl.jfxchess.gui.RepertoireController;
 
 import javafx.scene.control.Button;
 
@@ -10,15 +13,32 @@ import javafx.scene.control.Button;
 public class InstructiveGame extends Button {
 
     private Game instructiveGame;
-    private GameModel gameModel;
-
-    public InstructiveGame(Game instructiveGame, String title, GameModel gameModel){
+    
+    /**
+     * make a new instructive game given a game
+     * @param instructiveGame Game to be used to make instructive game
+     * @param title the tittle of the game
+     */
+    public InstructiveGame(Game instructiveGame, String title){
         super(title);
         this.instructiveGame = instructiveGame;
         this.setText(title);
-        this.gameModel = gameModel;
     }
     
+    /**
+     * construct a empty Instructive game containing a newGamee
+     * @param title
+     */
+    public InstructiveGame(String title){
+        super(title);
+        this.instructiveGame = new Game();
+
+    }
+    
+    /**
+     * Get the instructive game as a normal game 
+     * @return Game related to the InstructiveGame
+     */
     public Game getGame(){
         return this.instructiveGame;
     }

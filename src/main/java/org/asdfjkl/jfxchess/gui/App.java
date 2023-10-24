@@ -112,12 +112,9 @@ public class App extends Application implements StateChangeListener {
         // repertoire
         //nrv changes =======================================================================================================
         
-        TestCases testCases = new TestCases();
-
-        repertoire = testCases.makeRep();
 
         //nrv: initialize Rep. Controler
-        RepertoireController repertoireController = repertoire.getControler();
+        RepertoireController repertoireController = new RepertoireController();
 
 
         //nrv changes end =============================================================================================
@@ -344,7 +341,7 @@ public class App extends Application implements StateChangeListener {
 
 
 
-        Tab tabRepertoire = repertoire.getTab(); //make a tab for our new feature
+        Tab tabRepertoire = repertoireController.getRepertoireTab(); //make a tab for our new feature
 
 
         //Tab tabBook = new Tab("Book" , new Label("book"));
@@ -661,7 +658,7 @@ public class App extends Application implements StateChangeListener {
 
 
         btnOpenRep.setOnAction(e -> {
-            repertoireController.openRep(repertoire);
+            repertoireController.openRepertoire(repertoire);
         });
 
         btnMakeRep.setOnAction(e -> {
@@ -865,7 +862,7 @@ public class App extends Application implements StateChangeListener {
         itmEnterMoves.setSelected(true);
 
         Style style = Style.LIGHT;
-        if(gameModel.THEME == gameModel.STYLE_DARK) {
+        if(gameModel.THEME == GameModel.STYLE_DARK) {
             style = Style.DARK;
         }
         JMetro jMetro = new JMetro(style);

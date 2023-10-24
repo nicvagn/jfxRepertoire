@@ -28,6 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -44,14 +45,17 @@ public class Repertoire {
 
     private GameModel gameModel;
     private RepertoireController repertoireController;
+    private RepertoireGamesController gamesController;
     private String repertoireName;
     private Tab repertoireTab;
-    private TabPane repertoireTabPane;
-
+    private Label repLinesLbl;
+    private BorderPane repertoirePane; 
 
     //create an observable list for lines
-    private ObservableList<RepertoireLine> reperetoireLineList;
+    private ObservableList<RepertoireLine> repertoireLineList;
 
+    //choice box for chosing line
+    private ChoiceBox<RepertoireLine> repertoireLines;
 
     //buttons for rep. Tab
     private Button btnSaveRep;
@@ -60,7 +64,8 @@ public class Repertoire {
     //VBox for the buttons
     private VBox actionButtons;
 
-    private Chessboard repChessboard;
+    //VBox for the lines
+    private VBox chessLinesBx;
 
 
     /**
@@ -68,11 +73,13 @@ public class Repertoire {
      * @param repertoireName
      * @param gameModel
      */
-    public Repertoire(String repertoireName, GameModel gameModel){
+    public Repertoire(String repertoireName, GameModel gameModel, RepertoireController repertoireController){
         this.repertoireName = repertoireName;
         this.gameModel = gameModel;
-        repertoireController = new RepertoireController(gameModel);
-        reperetoireLineList = FXCollections.observableArrayList();
+        this.repertoireController = repertoireController;
+        gamesController = repertoireController.getGamesController();
+
+        repertoireLineList = FXCollections.observableArrayList();
 
         init();
     }
@@ -83,13 +90,15 @@ public class Repertoire {
      * @param gameModel
      * @param lines ArrayList<RepertoireLine> of pre defined lines
      */
-    public Repertoire(String repertoireName, GameModel gameModel, ArrayList<RepertoireLine> lines){
+    public Repertoire(String repertoireName, GameModel gameModel, RepertoireController repertoireController, ArrayList<RepertoireLine> lines){
         this.repertoireName = repertoireName;
         this.gameModel = gameModel;
-        repertoireController = new RepertoireController(gameModel);
+        this.repertoireController = repertoireController;
+        gamesController = repertoireController.getGamesController();
+
 
         //make a ObservableList of lines
-        reperetoireLineList = FXCollections.observableArrayList(lines);
+        repertoireLineList = FXCollections.observableArrayList(lines);
 
         init();
     }
@@ -108,16 +117,24 @@ public class Repertoire {
     }
 
     public ObservableList<RepertoireLine> getLines(){
-        return this.reperetoireLineList;
+        return this.repertoireLineList;
     }
-
+    
+    /**
+     * add a line to the repertoire
+     * @param line
+     */
     public void addLine(RepertoireLine line){
-        reperetoireLineList.add(line);
+        repertoireLineList.add(line);
+        chessLinesBx = new VBox(repLinesLbl, repertoireLines);
+        repertoirePane.setLeft(chessLinesBx);
+
     }
 
     public String getName(){
         return this.repertoireName;
     }
+
 
     /**
      * set up the Repertoire. Stuff that is common to all constructors
@@ -138,34 +155,31 @@ public class Repertoire {
         actionButtons.getChildren().addAll(btnSaveRep, btnImportGame);
         
         // display lines
-        ChoiceBox<RepertoireLine> chessLines = new ChoiceBox<>();
-        chessLines.getItems().addAll(reperetoireLineList);
-        chessLines.setMinWidth(300.0);
+        repertoireLines = new ChoiceBox<>();
+        repertoireLines.setItems(repertoireLineList);
+        repertoireLines.setMinWidth(300.0);
 
        
         //container
-        BorderPane repertoirePane = new BorderPane();
-        //tab pane
-        repertoireTabPane = new TabPane();
+        repertoirePane = new BorderPane();
 
-        //make label for chess lines
-        Label chessLinesLbl = new Label("Repertoire Line:");
-        VBox chessLinesBx = new VBox(chessLinesLbl, chessLines);
+        //make VBox for chess lines
+        repLinesLbl = new Label("Repertoire Line:");
+        chessLinesBx = new VBox(repLinesLbl, repertoireLines);
+ 
+        //set the chess lines choice box
+        repertoirePane.setLeft(repertoireLines);
 
+        //set the Instructive games
+        repertoirePane.setCenter(gamesController.getInstructiveGamesVBox());
 
-        repertoirePane.setLeft(chessLinesBx);
-        if(repertoireController.hasGames()){
-            repertoirePane.setCenter(repertoireController.getGamesController().getInstructiveGamesVBox());
-        }
+        //set te action buttons
         repertoirePane.setBottom(actionButtons);
 
-        repertoireTab = new Tab("Reperitoire", repertoirePane);
 
-        repertoireTabPane.getTabs().addAll(repertoireTab);
-
-        repertoirePane.setCenter(repertoireTabPane);
+        //create a tab for rep. information an populate it
+        repertoireTab = new Tab("Repertoire", repertoirePane);
 
         //repertoirePane.setRight();
-
     }   
 }

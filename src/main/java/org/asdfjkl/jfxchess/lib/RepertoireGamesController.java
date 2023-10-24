@@ -26,7 +26,9 @@ import java.util.ArrayList;
 
 import org.asdfjkl.jfxchess.gui.GameModel;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -46,25 +48,30 @@ public class RepertoireGamesController {
     public RepertoireGamesController(InstructiveGame[] instructiveGames, GameModel gameModel) {
         this.instructiveGames = instructiveGames;
         this.gameModel = gameModel;
-        instructiveGamesVBox = new VBox();
+        Label repGamesLbl = new Label("Line example Games");
+        instructiveGamesVBox = new VBox(repGamesLbl);
 
         if(instructiveGames != null){
             // go through list of instructive games and add them to vbox
             for (int i = 0; i < instructiveGames.length; i++) {
                 instructiveGamesVBox.getChildren().add(instructiveGames[i]);
             }
-        }else{
-            //otherwise create an empty VBox
-            instructiveGamesVBox = new VBox();
         }
     }
 
+    public RepertoireGamesController(GameModel gameModel) {
+        this.gameModel = gameModel;
+        this.instructiveGames = new InstructiveGame[0];
+
+        Label repGamesLbl = new Label("Line example Games");
+        instructiveGamesVBox = new VBox(repGamesLbl);
+    }
     /**
      * add an instructive game
      * @param ig instructive game
      */
     public void addInstructiveGame(InstructiveGame ig){
-        instructiveGames = addGame(instructiveGames, ig);
+        addGame(ig);
         instructiveGamesVBox.getChildren().add(ig);
 
         hasGames = true;
@@ -151,7 +158,7 @@ public class RepertoireGamesController {
      * @param ig new instructive game to add
      * @return {arr + ig}
      */
-    private InstructiveGame[] addGame(InstructiveGame instructiveGames[], InstructiveGame ig) { 
+    private void  addGame(InstructiveGame ig) { 
         int n = instructiveGames.length; 
    
         // create a new array of size n+1 
@@ -166,6 +173,6 @@ public class RepertoireGamesController {
         }
         newInstructiveGame[n] = ig; 
    
-       return newInstructiveGame; 
+       instructiveGames = newInstructiveGame; 
     }
 }

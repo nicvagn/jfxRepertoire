@@ -1,10 +1,7 @@
 package org.asdfjkl.jfxchess.gui;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -29,9 +26,7 @@ import javafx.scene.image.ImageView;
 import jfxtras.styles.jmetro.Style;
 import org.asdfjkl.jfxchess.lib.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 
 
@@ -113,6 +108,20 @@ public class App extends Application implements StateChangeListener {
         ScreenGeometry screenGeometry = gameModel.restoreScreenGeometry();
         gameModel.getGame().setTreeWasChanged(true);
         gameModel.getGame().setHeaderWasChanged(true);
+
+        // repertoire
+        //nrv changes =======================================================================================================
+        
+        TestCases testCases = new TestCases();
+
+        repertoire = testCases.makeRep();
+
+        //nrv: initialize Rep. Controler
+        RepertoireController repertoireController = repertoire.getControler();
+
+
+        //nrv changes end =============================================================================================
+
 
         // MENU
         MenuBar mnuBar = new MenuBar();
@@ -330,17 +339,14 @@ public class App extends Application implements StateChangeListener {
 
         BookView bookView = new BookView(gameModel);
 
-        //nrv  =========================================================================================================
-        //nrv: initialize Rep. Controler
-
-        repertoire = new Repertoire("My first rep.", gameModel);
-
-
-        //nrv changes end =============================================================================================
-
         Tab tabMoves = new Tab("Moves", moveView.getWebView());
         //Tab tabNotation = new Tab("Score Sheet"  , new Label("score sheet"));
+
+
+
         Tab tabRepertoire = repertoire.getTab(); //make a tab for our new feature
+
+
         //Tab tabBook = new Tab("Book" , new Label("book"));
         Tab tabBook = new Tab("Book" , bookView.bookTable);
 
@@ -650,18 +656,20 @@ public class App extends Application implements StateChangeListener {
             gameMenuController.handleSaveCurrentGame();
         });
 
-        /*/nrv changes =======================================================================================================
+        //nrv changes =======================================================================================================
+        
+
+
         btnOpenRep.setOnAction(e -> {
-            repertoireController.handleOpenRepertoire();
+            repertoireController.openRep(repertoire);
         });
 
         btnMakeRep.setOnAction(e -> {
             double height = stage.getHeight() *0.8;
-            repertoireController.makeRep(height, chessboard.boardStyle);
         });
 
 
-        /*///end nrv changes =====================================================================================================
+        //end nrv changes =====================================================================================================
         
         btnPrint.setOnAction(e -> {
             gameMenuController.handlePrintGame(stage);

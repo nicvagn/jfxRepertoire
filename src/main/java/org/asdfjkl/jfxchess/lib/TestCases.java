@@ -18,7 +18,12 @@
 
 package org.asdfjkl.jfxchess.lib;
 
-import org.asdfjkl.jfxchess.gui.PgnDatabaseEntry;
+import org.asdfjkl.jfxchess.gui.*;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.net.URL;
@@ -26,6 +31,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TestCases {
+
+    Repertoire rep;
+    RepertoireController rc;
+    RepertoireGamesController gameControler;
+    ArrayList<RepertoireLine> lines;    
+
+    // test making a rep
+    public Repertoire makeRep(){
+        GameModel gm = new GameModel();
+        rc = new RepertoireController(gm);
+        gameControler = rc.getGamesController();
+
+        InstructiveGame ig1 = gameControler.makeInstructiveGame("first test game", "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        InstructiveGame ig2 = gameControler.makeInstructiveGame("second test game", "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
+        InstructiveGame ig3 = gameControler.makeInstructiveGame("third test game", "4k2r/6r1/8/8/8/8/3R4/R3K3 w Qk - 0 1");
+
+        InstructiveGame[] iGamesArray = {ig1, ig2, ig3};
+        InstructiveGame[] rep2InstructiveGames = {ig3};
+        RepertoireLine testL_1 = new RepertoireLine("First Test Line", iGamesArray, new GameModel());
+        RepertoireLine testL_2 = new RepertoireLine("Second Test Line", rep2InstructiveGames, new GameModel());
+
+        lines = new ArrayList<RepertoireLine>();
+        lines.add(testL_1);
+        lines.add(testL_2);
+
+        gameControler.addInstructiveGame(ig1);
+        gameControler.addInstructiveGame(ig2);
+        gameControler.addInstructiveGame(ig3);
+
+        rep = new Repertoire("This is a test Repertoire", gm, rc, lines);
+
+ 
+
+        return rep;
+    }
 
     public void fenTest() {
 

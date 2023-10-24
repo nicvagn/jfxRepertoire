@@ -3,6 +3,7 @@ package org.asdfjkl.jfxchess.gui;
 import org.asdfjkl.jfxchess.lib.Board;
 import org.asdfjkl.jfxchess.lib.InstructiveGame;
 import org.asdfjkl.jfxchess.lib.RepertoireGamesController;
+import org.asdfjkl.jfxchess.lib.RepertoireLine;
 import org.asdfjkl.jfxchess.lib.Repertoire;
 
 import javafx.scene.layout.VBox;
@@ -26,10 +27,10 @@ public class RepertoireController {
      * @param gameModel - the game model, you need this to change the big board
      */
     public RepertoireController(GameModel gameModel){
-        this.repertoireGamesController = new RepertoireGamesController(null,gameModel);
+        this.repertoireGamesController = new RepertoireGamesController(gameModel);
         this.gameModel = gameModel;
+        this. gameModel = new GameModel();
     }
-
 
     /**
      * get the asociated RepertoireGameControler
@@ -37,15 +38,6 @@ public class RepertoireController {
      */
     public RepertoireGamesController getGamesController(){
         return this.repertoireGamesController;
-
-    }
-
-    //make a repertoire
-    public void makeRep(double dialogHeight, BoardStyle style){
-        Board board = gameModel.getGame().getCurrentNode().getBoard();
-        DialogMakeRepertoire dlg = new DialogMakeRepertoire();
-        double width = dialogHeight * 5;
-        dlg.show(board, style, width, gameModel.THEME);
 
     }
 
@@ -61,11 +53,10 @@ public class RepertoireController {
 
 
     /**
-     * daoes this repertoire line have example games?
+     * does this repertoire line have example games?
      * @return if it does
      */
     public boolean hasGames() {
         return this.repertoireGamesController.hasGames();
     }
-
 }

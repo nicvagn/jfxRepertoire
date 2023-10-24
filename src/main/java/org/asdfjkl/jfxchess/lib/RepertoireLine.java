@@ -35,11 +35,10 @@ public class RepertoireLine extends MenuItem {
     private GameModel gameModel;
     private RepertoireGamesController controller;
 
-
-    public RepertoireLine(String name, InstructiveGame[] instructiveGames, GameModel gameModel){
+    public RepertoireLine(String name, InstructiveGame[] instructiveGames, GameModel gameMode){
         super(name);
         this.inst_Games = instructiveGames;
-        this.gameModel = gameModel;
+        this.gameModel = gameMode;
         this.controller = new RepertoireGamesController(instructiveGames, gameModel);
         this.setText(name);
 

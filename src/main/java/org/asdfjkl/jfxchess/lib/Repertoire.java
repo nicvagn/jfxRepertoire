@@ -19,25 +19,12 @@
 package org.asdfjkl.jfxchess.lib;
 
 import java.util.ArrayList;
-import org.asdfjkl.jfxchess.gui.RepertoireController;
-import org.asdfjkl.jfxchess.gui.Chessboard;
+
+import org.asdfjkl.jfxchess.gui.RepertoireTab;
 import org.asdfjkl.jfxchess.gui.GameModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-
 
 /**
  * a repertoire with example games ilistrating lines
@@ -51,13 +38,15 @@ public class Repertoire {
     //create an observable list for lines
     private ObservableList<RepertoireLine> repertoireLineList;
 
+
     /**
      * construct an empty repertoire
      * @param repertoireName
-     * @param gameModel
+     * @param controler the RepertireController that made this rep
      */
-    public Repertoire(String repertoireName){
+    public Repertoire(String repertoireName, RepertoireController controller){
 
+        this.controller = controller;
         this.repertoireName = repertoireName;
         repertoireLineList = FXCollections.observableArrayList();
     }
@@ -65,16 +54,16 @@ public class Repertoire {
     /**
      * construct a repertoire with lines defined
      * @param repertoireName
-     * @param gameModel
+     * @param controler the RepertireController that made this rep
      * @param lines ArrayList<RepertoireLine> of pre defined lines
      */
-    public Repertoire(String repertoireName, ArrayList<RepertoireLine> lines){
+    public Repertoire(String repertoireName, RepertoireController controller, ArrayList<RepertoireLine> lines){
 
         this.repertoireName = repertoireName;
+        this.controller = controller;
 
         //make a ObservableList of lines
         repertoireLineList = FXCollections.observableArrayList(lines);
-
     }
 
     /**
@@ -84,17 +73,23 @@ public class Repertoire {
     public RepertoireGamesController getGamesController(){
 
         return controller.gamesController;
-
     }
 
 
-
+	/**
+	 * get the game controler used by this rep
+	 * @return the game model
+	 */
     public GameModel getGameModel(){
 
         return controller.gameModel;
     }
 
-    public ObservableList<RepertoireLine> getLines(){
+    /**
+	 * get the observable list or lines asociated with this rep
+	 * @return rep. line list
+	 */
+	public ObservableList<RepertoireLine> getLines(){
 
         return this.repertoireLineList;
     }
@@ -110,6 +105,14 @@ public class Repertoire {
     }
 
     /**
+     * reps string representation is just it's name
+     */
+    public String toString(){
+
+        return this.repertoireName;
+    }
+
+    /**
      * add a line to the repertoire
      * @param line
      */
@@ -117,4 +120,14 @@ public class Repertoire {
 
         repertoireLineList.add(line);
     }
+
+    /**
+     * get the RepretiorTab of this rep
+     * @return the tap
+     */
+    public RepertoireTab getRepertoireTab(){
+
+        return controller.getRepertoireTab();
+    }
+
 }

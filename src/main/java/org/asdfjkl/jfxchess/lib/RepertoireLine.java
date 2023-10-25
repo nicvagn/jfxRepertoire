@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import org.asdfjkl.jfxchess.gui.GameModel;
-import org.asdfjkl.jfxchess.gui.RepertoireController;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -35,6 +34,7 @@ public class RepertoireLine extends MenuItem {
 
     private InstructiveGame[] instructiveGames;
     private RepertoireController repertoireController;
+    
     /**
      * construct a rep. line with instructive games
      * @param name

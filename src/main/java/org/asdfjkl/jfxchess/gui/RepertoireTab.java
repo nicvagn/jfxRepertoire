@@ -21,82 +21,43 @@ package org.asdfjkl.jfxchess.gui;
 import org.asdfjkl.jfxchess.lib.RepertoireLine;
 
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 
 import org.asdfjkl.jfxchess.lib.OpenRepLinesHandler;
+import org.asdfjkl.jfxchess.lib.Repertoire;
+import org.asdfjkl.jfxchess.lib.RepertoireController;
 
 /**
  * A tab containing all the stuff for nrv's rep builder
  */
 public class RepertoireTab extends Tab {
 
-	// a way to chose what line to examine
+	RepertoireController controller;
+
+	//the reps you can open
+	ChoiceBox<Repertoire> repertoireList;
+
+	// a way to chose what line to examine lines of open rep
 	ChoiceBox<RepertoireLine> repertoireLines;
 
 	// list of lines
 	ObservableList<RepertoireLine> repertoireLineList;
 
-	Button btnSaveRep = new Button("Save Repertoire");
-	Button btnImportGame = new Button("Import Game");
-	VBox actionButtons = new VBox(10); // container for action buttons
-
-	//box and label for the lines
-	Label repLinesLbl;
-	VBox chessLinesBx;
-
+	//handle opening lines on main board
 	OpenRepLinesHandler repLinesHandler = new OpenRepLinesHandler();
 
 	//main tab used to organize the tab
-    BorderPane repertoirePane; 
+    BorderPane repertoirePane;
 
 
 	/**
  	 * init a tab with a repertire
 	 */
-	public RepertoireTab(){
-
-		init();
+	public RepertoireTab(RepertoireController controller){
+		
+		super("Repertoire");
+		this.controller = controller;
     }
-
-	/**
-	 * init a tab with a repet
-	 */
-	private void init(){
-		
-    	btnSaveRep.setMinWidth(140);
-    	btnSaveRep.setGraphic(new ImageView(new Image("icons/document-save.png")));
-
-	    btnImportGame.setMinWidth(140);
-    	btnImportGame.setGraphic(new ImageView(new Image("icons/document-enter-position.png")));
-
-	    //add the buttons to a HBox for easy grouping
-    	actionButtons.getChildren().addAll(btnSaveRep, btnImportGame);
-		
-    	// set up lines choicebox
-    	repertoireLines = new ChoiceBox<>();
-    	//link method setInstructiveGames to the choicebox
-    	repertoireLines.setOnAction(repLinesHandler::handle);
-    	repertoireLines.setMinWidth(300.0);
-		
-    	//container
-    	repertoirePane = new BorderPane();
-    	//make VBox for chess lines
-    	repLinesLbl = new Label("Repertoire Line:");
-    	chessLinesBx = new VBox(repLinesLbl, repertoireLines);
-
-	    //set the chess lines choice box
-    	repertoirePane.setLeft(repertoireLines);
-    	//set te action buttons
-    	repertoirePane.setBottom(actionButtons);
-
-		//set the pane content to the constructed pane
-		this.setContent(repertoirePane);
-	}
 }

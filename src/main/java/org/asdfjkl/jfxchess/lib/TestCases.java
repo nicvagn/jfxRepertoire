@@ -35,11 +35,33 @@ public class TestCases {
     Repertoire rep;
     RepertoireController repContr;
     RepertoireGamesController gameControler;
-    ArrayList<RepertoireLine> lines;    
+    ArrayList<RepertoireLine> lines = new ArrayList<>();    
 
     // test making a rep
-    public Repertoire makeRep(){
-        return repContr.getOpenRepertoire();
+    public Repertoire testRep(RepertoireController repCitrl){
+        repContr = repCitrl;
+        gameControler=repContr.getGamesController();
+
+
+        InstructiveGame[] ida1 = {new InstructiveGame("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", "Game 1"), 
+        new InstructiveGame("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2 null", "Game 3"),
+        new InstructiveGame("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2", "Game 3")};
+        
+        RepertoireLine ln1 = new RepertoireLine("Line 1", ida1, repContr);
+
+        RepertoireLine ln2 = new RepertoireLine("Line 2", ida1, repContr);
+
+        RepertoireLine ln3 = new RepertoireLine("Line 3", ida1, repContr);
+
+        lines.add(ln1);
+        lines.add(ln2);
+        lines.add(ln3);
+
+        rep = repContr.newRepertoire("firstRep", lines);
+
+        repContr.openRepertoire(rep);
+
+        return rep;
     }
 
     public void fenTest() {

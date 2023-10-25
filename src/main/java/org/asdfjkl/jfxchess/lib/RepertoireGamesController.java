@@ -20,20 +20,10 @@
 package org.asdfjkl.jfxchess.lib;
 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import org.asdfjkl.jfxchess.gui.GameModel;
-import org.asdfjkl.jfxchess.gui.RepertoireController;
-
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 
 /**
@@ -54,7 +44,7 @@ public class RepertoireGamesController {
         instructiveGamesVBox = new VBox(repGamesLbl);
 
         if(instructiveGames != null){
-            
+
             // go through list of instructive games and add them to vbox
             for (int i = 0; i < instructiveGames.length; i++) {
                 instructiveGamesVBox.getChildren().add(instructiveGames[i]);
@@ -114,8 +104,6 @@ public class RepertoireGamesController {
      */
     public InstructiveGame makeInstructiveGame(String title){
 
-        Game tempGame = new Game();
-
         InstructiveGame instructiveGame = new InstructiveGame(title);
         return instructiveGame;
     }
@@ -133,7 +121,7 @@ public class RepertoireGamesController {
         tempGame.getRootNode().setBoard(tempBoard);
 
 
-        InstructiveGame instructiveGame = new InstructiveGame(title);
+        InstructiveGame instructiveGame = new InstructiveGame(title, fen);
         return instructiveGame;        
     }
 

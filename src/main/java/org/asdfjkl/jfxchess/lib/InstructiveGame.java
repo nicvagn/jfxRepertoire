@@ -19,9 +19,6 @@
 package org.asdfjkl.jfxchess.lib;
 
 
-import java.util.ArrayList;
-
-import org.asdfjkl.jfxchess.gui.RepertoireController;
 
 import javafx.scene.control.Button;
 
@@ -33,14 +30,23 @@ public class InstructiveGame extends Button {
     private Game instructiveGame;
     
     /**
-     * make a new instructive game given a game
-     * @param instructiveGame Game to be used to make instructive game
+     * make a new instructive game with a given position
+     * @param fen to use to make Instructive Game
      * @param title the tittle of the game
      */
-    public InstructiveGame(Game instructiveGame, String title){
-        super(title);
-        this.instructiveGame = instructiveGame;
-        this.setText(title);
+    public InstructiveGame(String title, String fen){
+        
+        super(title); //set the tittal of the button
+        
+        Board tBoard = new Board(fen);
+
+        Game game = new Game();
+        GameNode gNode = new GameNode();  //you need the gNode to set the fen
+
+        gNode.setBoard(tBoard);
+        game.setCurrent(gNode);
+
+        this.instructiveGame = game;
     }
     
     /**
@@ -48,6 +54,7 @@ public class InstructiveGame extends Button {
      * @param title
      */
     public InstructiveGame(String title){
+
         super(title);
         this.instructiveGame = new Game();
 
@@ -58,6 +65,7 @@ public class InstructiveGame extends Button {
      * @return Game related to the InstructiveGame
      */
     public Game getGame(){
+
         return this.instructiveGame;
     }
 

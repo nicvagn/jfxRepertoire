@@ -88,6 +88,7 @@ public class App extends Application implements StateChangeListener {
     @Override
     public void start(Stage stage) {
 
+        TestRepertoire testRepertoire = new TestRepertoire();
         //TestCases tests = new TestCases();
         //tests.runPosHashTest();
         //tests.pgnScanTest();
@@ -115,6 +116,13 @@ public class App extends Application implements StateChangeListener {
 
         //nrv: initialize Rep. Controler
         RepertoireController repertoireController = new RepertoireController();
+
+
+        testRepertoire.testMakingManyReps(repertoireController);
+
+        
+        
+
 
 
         //nrv changes end =============================================================================================
@@ -340,10 +348,12 @@ public class App extends Application implements StateChangeListener {
         //Tab tabNotation = new Tab("Score Sheet"  , new Label("score sheet"));
 
 
+        //======================================================================================
 
         Tab tabRepertoire = repertoireController.getRepertoireTab(); //make a tab for our new feature
 
-
+        //===========================================================================================
+        
         //Tab tabBook = new Tab("Book" , new Label("book"));
         Tab tabBook = new Tab("Book" , bookView.bookTable);
 

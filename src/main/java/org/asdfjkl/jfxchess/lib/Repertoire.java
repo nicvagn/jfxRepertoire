@@ -31,8 +31,8 @@ import javafx.collections.ObservableList;
  */
 public class Repertoire {
 
-    private String repertoireName;
-    private RepertoireController controller;
+    private final String repertoireName;
+    private final RepertoireController controller;
 
 
     //create an observable list for lines
@@ -67,14 +67,13 @@ public class Repertoire {
     }
 
     /**
-     * get the asociated RepertoireGameControler
-     * @return the RepertioreGameControler
+     * add a line to the repertoire
+     * @param line
      */
-    public RepertoireGamesController getGamesController(){
+    public void addLine(RepertoireLine line){
 
-        return controller.gamesController;
+        repertoireLineList.add(line);
     }
-
 
 	/**
 	 * get the game controler used by this rep
@@ -111,23 +110,4 @@ public class Repertoire {
 
         return this.repertoireName;
     }
-
-    /**
-     * add a line to the repertoire
-     * @param line
-     */
-    public void addLine(RepertoireLine line){
-
-        repertoireLineList.add(line);
-    }
-
-    /**
-     * get the RepretiorTab of this rep
-     * @return the tap
-     */
-    public RepertoireTab getRepertoireTab(){
-
-        return controller.getRepertoireTab();
-    }
-
 }

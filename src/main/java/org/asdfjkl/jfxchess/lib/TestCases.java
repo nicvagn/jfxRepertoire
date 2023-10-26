@@ -33,33 +33,31 @@ import java.util.HashMap;
 public class TestCases {
 
     Repertoire rep;
-    RepertoireController repContr;
-    RepertoireGamesController gameControler;
+    RepertoireController controller;
+    LineGameController gameController;
     ArrayList<RepertoireLine> lines = new ArrayList<>();    
 
     // test making a rep
     public Repertoire testRep(RepertoireController repCitrl){
-        repContr = repCitrl;
-        gameControler=repContr.getGamesController();
+        controller = repCitrl;
 
-
-        InstructiveGame[] ida1 = {new InstructiveGame("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", "Game 1"), 
-        new InstructiveGame("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2 null", "Game 3"),
-        new InstructiveGame("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2", "Game 3")};
+        ArrayList<InstructiveGame> ida1 = new ArrayList<InstructiveGame>();
+        ida1.add(new InstructiveGame("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", "Game 1"));
+        ida1.add(new InstructiveGame("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2 null", "Game 3"));
+        ida1.add(new InstructiveGame("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2", "Game 3"));
         
-        RepertoireLine ln1 = new RepertoireLine("Line 1", ida1, repContr);
+        RepertoireLine ln1 = new RepertoireLine("Line 1", controller, ida1);
 
-        RepertoireLine ln2 = new RepertoireLine("Line 2", ida1, repContr);
+        RepertoireLine ln2 = new RepertoireLine("Line 2", controller, ida1);
 
-        RepertoireLine ln3 = new RepertoireLine("Line 3", ida1, repContr);
+        RepertoireLine ln3 = new RepertoireLine("Line 3", controller, ida1);
 
         lines.add(ln1);
         lines.add(ln2);
         lines.add(ln3);
 
-        rep = repContr.newRepertoire("firstRep", lines);
+        rep = controller.newRepertoire("firstRep", lines);
 
-        repContr.openRepertoire(rep);
 
         return rep;
     }

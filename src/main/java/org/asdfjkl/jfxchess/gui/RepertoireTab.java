@@ -25,7 +25,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 
-import org.asdfjkl.jfxchess.lib.OpenRepLinesHandler;
 import org.asdfjkl.jfxchess.lib.Repertoire;
 import org.asdfjkl.jfxchess.lib.RepertoireController;
 

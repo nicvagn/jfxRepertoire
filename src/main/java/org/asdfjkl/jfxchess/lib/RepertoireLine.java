@@ -18,79 +18,53 @@
 
 package org.asdfjkl.jfxchess.lib;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import org.asdfjkl.jfxchess.gui.GameModel;
-
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.VBox;
 
 /**
  * A line in the repertoire, with example games
  */
 public class RepertoireLine extends MenuItem {
 
-    private InstructiveGame[] instructiveGames;
-    private RepertoireController repertoireController;
+    private LineGameController lineGameController;
+    private RepertoireController controller;
     
     /**
-     * construct a rep. line with instructive games
-     * @param name
-     * @param instructiveGames
-     * @param repertoireController
+     * construct a rep. line with no instructive games
+     * @param name passed to the button constructor
      */
-    public RepertoireLine(String name, RepertoireController repertoireController){
+    public RepertoireLine(String name, RepertoireController controller){
 
         super(name); //super constructer for Button()
-        this.instructiveGames = new InstructiveGame[0]; //construct a new line w/o inst games
-        this.repertoireController = repertoireController;
+        this.lineGameController = new LineGameController(controller); //construct a new line w/o inst games
     }
 
     /**
      * construct a rep. line with instructive games
-     * @param name
-     * @param instructiveGames
-     * @param repertoireController
+     * @param name passed to the button constructor
+     * @param instructiveGames ArrayList of the instructive games for this line
      */
-    public RepertoireLine(String name, InstructiveGame[] instructiveGames, RepertoireController repertoireController){
+    public RepertoireLine(String name, RepertoireController controller, ArrayList<InstructiveGame> instructiveGames){
 
         super(name); //super constructer for Button()
-        this.instructiveGames = instructiveGames;
-        this.repertoireController = repertoireController;
+
+        this.controller = controller;
+        //make a game controller for this line
+        lineGameController = new LineGameController(instructiveGames, controller);
     }
 
     /**
-     * get an array of this Rep. lines instructiveGamesuctive games
-     * @return array of instructiveGame
-     */
-    public InstructiveGame[] getIntructGames(){
+     * get an ArrayList of this Rep. lines instructiveGames
+     * @return arrayList of instructiveGame
+     *
+    public ArrayList<InstructiveGame> getIntructGames(){
 
-        return this.instructiveGames;
+        return this.lineGameController.g;
     }
 
-    /**
-     * add an instructiveGamesuctive Game to this line
-     */
-    public void addinstructiveGame(InstructiveGame game){
+    */
 
-        //if instructive games has 1 or more elements
-        if(instructiveGames.length > 0){
-            InstructiveGame[] newinstructiveGames = new InstructiveGame[this.instructiveGames.length];
-
-            int i;
-            for(i = 0; i < this.instructiveGames.length; i++){
-                newinstructiveGames[i] = instructiveGames[i];
-            }
-
-            newinstructiveGames[i] = game;
-            this.instructiveGames = newinstructiveGames;
-        }else{
-            instructiveGames = new InstructiveGame[]{game};
-        }
-
-    }
 
     /**
      * get the line's name
@@ -102,7 +76,16 @@ public class RepertoireLine extends MenuItem {
     }
 
     /**
-     * @return the tittle of the line
+     * get the line's game controler
+     * @return this lines game controler
+     */
+    public LineGameController getlineGameController(){
+
+        return this.lineGameController;
+    }
+
+    /**
+     * @return the name of the line
      */
     public String toString(){
         

@@ -120,8 +120,8 @@ public class App extends Application implements StateChangeListener {
 
         testRepertoire.testMakingManyReps(repertoireController);
 
-        
-        
+        Button btnOpenRep = repertoireController.btnOpenRep;
+        Button btnMakeRep = repertoireController.btnMakeRep;
 
 
 
@@ -239,14 +239,6 @@ public class App extends Application implements StateChangeListener {
         btnOpen.setGraphic(new ImageView( new Image("icons/document-open.png")));
         btnOpen.setContentDisplay(ContentDisplay.TOP);
 
-        Button btnMakeRep = new Button("New Repertoire");
-        btnMakeRep.setGraphic(new ImageView( new Image("icons/database.png")));
-        btnMakeRep.setContentDisplay(ContentDisplay.TOP);
-
-        Button btnOpenRep = new Button("Open Repertoire");
-        btnOpenRep.setGraphic(new ImageView( new Image("icons/database.png")));
-        btnOpenRep.setContentDisplay(ContentDisplay.TOP);
-
         Button btnSaveAs = new Button("Save Game");
         btnSaveAs.setGraphic(new ImageView( new Image("icons/document-save.png")));
         btnSaveAs.setContentDisplay(ContentDisplay.TOP);
@@ -351,6 +343,22 @@ public class App extends Application implements StateChangeListener {
         //======================================================================================
 
         Tab tabRepertoire = repertoireController.getRepertoireTab(); //make a tab for our new feature
+
+
+        repertoireController.btnOpenRep.setOnAction(e -> {
+            repertoireController.openRepertoire();
+        });
+
+        repertoireController.btnOpenRepTop.setOnAction(e -> {
+            repertoireController.openRepertoire();
+        });
+
+
+        repertoireController.btnMakeRep.setOnAction(e -> {
+            double height = stage.getHeight() *0.8;
+        });
+
+
 
         //===========================================================================================
         
@@ -663,20 +671,7 @@ public class App extends Application implements StateChangeListener {
             gameMenuController.handleSaveCurrentGame();
         });
 
-        //nrv changes =======================================================================================================
-        
 
-
-        btnOpenRep.setOnAction(e -> {
-            repertoireController.openRepertoire(repertoire);
-        });
-
-        btnMakeRep.setOnAction(e -> {
-            double height = stage.getHeight() *0.8;
-        });
-
-
-        //end nrv changes =====================================================================================================
         
         btnPrint.setOnAction(e -> {
             gameMenuController.handlePrintGame(stage);

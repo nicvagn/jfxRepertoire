@@ -23,26 +23,36 @@ package org.asdfjkl.jfxchess.lib;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.asdfjkl.jfxchess.gui.GameModel;
-
-import javafx.event.EventHandler;
-import javafx.scene.image.Image;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
-
 /**
  * Open the games associated with a given repertoire line
  */
-public class OpenRepertoireGames {
+public class OpenGameListner implements ActionListener {
 
-    InstructiveGame[] instructiveGames;
+    private RepertoireController controller;
 
-    OpenRepertoireGames(InstructiveGame[] instructiveGames){
-        this.instructiveGames = instructiveGames;
+    /**
+     * construct Listner with a ref. to the main repertior Controller
+     * @param controller
+     */
+    public OpenGameListner(RepertoireController controller){
+        this.controller = controller;
     }
-    
-    public void setGameButtons(){
 
+    public void handleGameChange(ActionEvent event){
+        System.out.println("GameChange");
+
+        controller.setMainGame((InstructiveGame) event.getSource());
+
+    }
+
+    /**
+     * Discover what event was preformed, and take appropriate action
+     * @param event the event that triggered this
+     */
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        if(event.getSource() instanceof InstructiveGame){
+            controller.setMainGame((InstructiveGame) event.getSource());
+        } 
     }
 }
